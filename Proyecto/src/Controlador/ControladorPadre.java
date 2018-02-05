@@ -1,12 +1,38 @@
 package Controlador;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-public abstract class ControladorPadre implements FocusListener, KeyListener{
+import Vista.AgregarCurso;
+import Vista.AgregarUsuario;
+import Vista.VistaHorario;
 
+public class ControladorPadre implements FocusListener, KeyListener, ItemListener, ActionListener{
+	private static ControladorPadre instance;
+	private VistaHorario horario;
+	private AgregarCurso agregarCurso;
+	private AgregarUsuario agregarUsuario;
+	
+	public ControladorPadre() {
+		//login
+	}
+	public static ControladorPadre getInstance() {
+		if (instance == null) {
+			instance = new ControladorPadre();
+		}
+		return instance;
+	}
+	@Override
+	public void itemStateChanged(ItemEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
 	@Override
 	public void focusGained(FocusEvent arg0) {
 		// TODO Auto-generated method stub
@@ -37,4 +63,27 @@ public abstract class ControladorPadre implements FocusListener, KeyListener{
 		
 	}
 	
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	public VistaHorario getHorario() {
+		return horario;
+	}
+	public void setHorario(VistaHorario horario) {
+		this.horario = horario;
+	}
+	public AgregarCurso getAgregarCurso() {
+		return agregarCurso;
+	}
+	public void setAgregarCurso(AgregarCurso agregarCurso) {
+		this.agregarCurso = agregarCurso;
+	}
+	public AgregarUsuario getAgregarUsuario() {
+		return agregarUsuario;
+	}
+	public void setAgregarUsuario(AgregarUsuario agregarUsuario) {
+		this.agregarUsuario = agregarUsuario;
+	}
 }

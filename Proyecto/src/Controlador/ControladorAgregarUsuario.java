@@ -2,214 +2,417 @@ package Controlador;
 
 import java.awt.Color;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
 import java.awt.event.FocusEvent;
+import java.awt.event.ItemEvent;
 import java.awt.event.KeyEvent;
+import java.lang.reflect.Array;
 
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
 
+import Modelo.Hash;
 import Modelo.Usuario;
 import Vista.AgregarUsuario;
 
-public class ControladorAgregarUsuario extends ControladorPadre{
-	private AgregarUsuario agregarUsuario;
-	Usuario user;
+public class ControladorAgregarUsuario extends ControladorPadre {
+	private Usuario user;
+	private Boolean[] bandera;
+
 	public ControladorAgregarUsuario() {
-		this.setAgregarUsuario(new AgregarUsuario(this));
-		this.getAgregarUsuario().setVisible(true);
+		super.setAgregarUsuario(new AgregarUsuario(this));
+		super.getAgregarUsuario().setVisible(true);
 		user = new Usuario();
+		creadorModelos();
+		this.setBandera(inicializadorDeBandera());
+	}
+
+	private Boolean[] inicializadorDeBandera() {
+		Boolean[] bandera = new Boolean[12];
+		for (int i = 0; i < bandera.length; i++) {
+			bandera[i] = false;
+		}
+		return bandera;
+	}
+
+	private void creadorModelos() {
 		String[] str = user.consulColumna("nombre_provincia", "provincia");
 		str[0] = "Selecciona una provincia";
-		this.getAgregarUsuario().getCbxProvincia().setModel(new DefaultComboBoxModel(str));
+		super.getAgregarUsuario().getCbxProvincia().setModel(new DefaultComboBoxModel(str));
 		str = user.consulColumna("nombre_genero", "genero");
 		str[0] = "Selecciona un genero";
-		this.getAgregarUsuario().getCbxGenero().setModel(new DefaultComboBoxModel(str));
+		super.getAgregarUsuario().getCbxGenero().setModel(new DefaultComboBoxModel(str));
 		str = user.consulColumna("pregunta", "pregunta");
 		str[0] = "Selecciona una pregunta";
-		this.getAgregarUsuario().getCbxPregunta().setModel(new DefaultComboBoxModel(str));
+		super.getAgregarUsuario().getCbxPregunta().setModel(new DefaultComboBoxModel(str));
+
+		str = user.consulColumna("nombre_localidad", "localidad");
+		str[0] = "Selecciona una localidad";
+		super.getAgregarUsuario().getCbxLocalidad().setModel(new DefaultComboBoxModel(str));
+		str = user.consulColumna("nombre_usuario", "tipo_usuario");
+		str[0] = "Seleccione un tipo";
+		super.getAgregarUsuario().getCbxTipoUsuario().setModel(new DefaultComboBoxModel(str));
 	}
-	
+
 	@Override
 	public void focusLost(FocusEvent arg0) {
 		switch (arg0.getComponent().getName()) {
 		case "txtNombre":
-			if (this.getAgregarUsuario().getTxtNombre().getText().isEmpty()) {
-				this.getAgregarUsuario().getLblNombre().setForeground(Color.RED);
-				this.getAgregarUsuario().getLblError().setVisible(true);
-				this.getAgregarUsuario().getLblError2().setText("Se debe ingresar un nombre");
-				this.getAgregarUsuario().getLblError2().setVisible(true);
+			if (super.getAgregarUsuario().getTxtNombre().getText().isEmpty()) {
+				super.getAgregarUsuario().getLblNombre().setForeground(Color.RED);
+				super.getAgregarUsuario().getLblError().setVisible(true);
+				super.getAgregarUsuario().getLblError2().setText("Se debe ingresar un nombre");
+				super.getAgregarUsuario().getLblError2().setVisible(true);
+				this.getBandera()[0] = false;
 			}
 			break;
 		case "txtApellido":
-			if (this.getAgregarUsuario().getTxtApellido().getText().isEmpty()) {
-				this.getAgregarUsuario().getLblApellido().setForeground(Color.RED);
-				this.getAgregarUsuario().getLblError().setVisible(true);
-				this.getAgregarUsuario().getLblError2().setText("Se debe ingresar un apellido");
-				this.getAgregarUsuario().getLblError2().setVisible(true);
-				
+			if (super.getAgregarUsuario().getTxtApellido().getText().isEmpty()) {
+				super.getAgregarUsuario().getLblApellido().setForeground(Color.RED);
+				super.getAgregarUsuario().getLblError().setVisible(true);
+				super.getAgregarUsuario().getLblError2().setText("Se debe ingresar un apellido");
+				super.getAgregarUsuario().getLblError2().setVisible(true);
+				this.getBandera()[1] = false;
+
 			}
 			break;
 		case "txtDni":
-			if (this.getAgregarUsuario().getTxtDni().getText().isEmpty()) {
-				this.getAgregarUsuario().getLblDni().setForeground(Color.RED);
-				this.getAgregarUsuario().getLblError().setVisible(true);
-				this.getAgregarUsuario().getLblError2().setText("Se debe ingresar un DNI");
-				this.getAgregarUsuario().getLblError2().setVisible(true);
-				
+			if (super.getAgregarUsuario().getTxtDni().getText().isEmpty() || super.getAgregarUsuario().getTxtDni().getText().length() < 8) {
+				super.getAgregarUsuario().getLblDni().setForeground(Color.RED);
+				super.getAgregarUsuario().getLblError().setVisible(true);
+				super.getAgregarUsuario().getLblError2().setText("Se debe ingresar un DNI");
+				super.getAgregarUsuario().getLblError2().setVisible(true);
+				this.getBandera()[2] = false;
 			}
 			break;
 		case "txtTelefono":
-			if (this.getAgregarUsuario().getTxtTelefono().getText().isEmpty()) {
-				this.getAgregarUsuario().getLblTelefono().setForeground(Color.RED);
-				this.getAgregarUsuario().getLblError().setVisible(true);
-				this.getAgregarUsuario().getLblError2().setText("Se debe ingresar un telefono sin codigo de area y sin 15");
-				this.getAgregarUsuario().getLblError2().setVisible(true);
-				
-			}
-			break;
-		case "txtRespuesta":
-			if (this.getAgregarUsuario().getTxtRespuesta().getText().isEmpty()) {
-				this.getAgregarUsuario().getLblPreguntaSecreta().setForeground(Color.RED);
-				this.getAgregarUsuario().getLblError().setVisible(true);
-				this.getAgregarUsuario().getLblError2().setText("Se debe ingresar una respuesta");
-				this.getAgregarUsuario().getLblError2().setVisible(true);
-			}
-			break;
-		case "txtContrasenia":
-			if (this.getAgregarUsuario().getTxtContrasenia().getText().isEmpty()) {
-				this.getAgregarUsuario().getLblContrasenia().setForeground(Color.RED);
-				this.getAgregarUsuario().getLblError().setVisible(true);
-				this.getAgregarUsuario().getLblError2().setText("Se debe ingresar una contraseña");
-				this.getAgregarUsuario().getLblError2().setVisible(true);
-			}
-			break;
-		case "txtConfirmarContrasenia":
-			if (this.getAgregarUsuario().getTxtConfirmarContrasenia().getText().isEmpty()) {
-				this.getAgregarUsuario().getLblConfirmarContrasenia().setForeground(Color.RED);
-				this.getAgregarUsuario().getLblError().setVisible(true);
-				this.getAgregarUsuario().getLblError2().setText("Las contraseñas deben ser iguales");
-				this.getAgregarUsuario().getLblError2().setVisible(true);
-			}
-			break;
-		case "cbxTipoUsuario":
-			if (this.getAgregarUsuario().getCbxTipoUsuario().getSelectedIndex() == 0) {
-				this.getAgregarUsuario().getLblTipoUsuario().setForeground(Color.RED);
-				this.getAgregarUsuario().getLblError().setVisible(true);
-				this.getAgregarUsuario().getLblError2().setText("Eliga un tipo de usuario");
-				this.getAgregarUsuario().getLblError2().setVisible(true);
+			if (super.getAgregarUsuario().getTxtTelefono().getText().isEmpty() || super.getAgregarUsuario().getTxtTelefono().getText().length() < 7) {
+				super.getAgregarUsuario().getLblTelefono().setForeground(Color.RED);
+				super.getAgregarUsuario().getLblError().setVisible(true);
+				super.getAgregarUsuario().getLblError2()
+						.setText("Se debe ingresar un telefono sin codigo de area y sin 15");
+				super.getAgregarUsuario().getLblError2().setVisible(true);
+				this.getBandera()[4] = false;
+
 			}
 			break;
 		case "cbxProvincia":
-			if (this.getAgregarUsuario().getCbxProvincia().getSelectedIndex() == 0) {
-				this.getAgregarUsuario().getLblProvincia().setForeground(Color.RED);
-				this.getAgregarUsuario().getLblError().setVisible(true);
-				this.getAgregarUsuario().getLblError2().setText("Eliga una provincia");
-				this.getAgregarUsuario().getLblError2().setVisible(true);
-				}
+			if (super.getAgregarUsuario().getCbxProvincia().getSelectedIndex() == 0) {
+				super.getAgregarUsuario().getLblProvincia().setForeground(Color.RED);
+				super.getAgregarUsuario().getLblError().setVisible(true);
+				super.getAgregarUsuario().getLblError2().setText("Eliga una provincia");
+				super.getAgregarUsuario().getLblError2().setVisible(true);
+				super.getAgregarUsuario().getCbxLocalidad().setEnabled(false);
+				this.getBandera()[5] = false;
+			}
+			break;
+		case "txtRespuesta":
+			if (super.getAgregarUsuario().getTxtRespuesta().getText().isEmpty()) {
+				super.getAgregarUsuario().getLblPreguntaSecreta().setForeground(Color.RED);
+				super.getAgregarUsuario().getLblError().setVisible(true);
+				super.getAgregarUsuario().getLblError2().setText("Se debe ingresar una respuesta");
+				super.getAgregarUsuario().getLblError2().setVisible(true);
+				this.getBandera()[11] = false;
+			}
+			break;
+		case "txtContrasenia":
+			if (super.getAgregarUsuario().getTxtContrasenia().getText().isEmpty()) {
+				super.getAgregarUsuario().getLblContrasenia().setForeground(Color.RED);
+				super.getAgregarUsuario().getLblError().setVisible(true);
+				super.getAgregarUsuario().getLblError2().setText("Se debe ingresar una contraseña");
+				super.getAgregarUsuario().getLblError2().setVisible(true);
+				this.getBandera()[8] = false;
+			}
+			break;
+		case "txtConfirmarContrasenia":
+			if (super.getAgregarUsuario().getTxtConfirmarContrasenia().getText().isEmpty()) {
+				super.getAgregarUsuario().getLblConfirmarContrasenia().setForeground(Color.RED);
+				super.getAgregarUsuario().getLblError().setVisible(true);
+				super.getAgregarUsuario().getLblError2().setText("Las contraseñas deben ser iguales");
+				super.getAgregarUsuario().getLblError2().setVisible(true);
+			}
+			break;
+		case "cbxTipoUsuario":
+			if (super.getAgregarUsuario().getCbxTipoUsuario().getSelectedIndex() == 0) {
+				super.getAgregarUsuario().getLblTipoUsuario().setForeground(Color.RED);
+				super.getAgregarUsuario().getLblError().setVisible(true);
+				super.getAgregarUsuario().getLblError2().setText("Eliga un tipo de usuario");
+				super.getAgregarUsuario().getLblError2().setVisible(true);
+				this.getBandera()[3] = false;
+			} else {
+				super.getAgregarUsuario().getLblTipoUsuario().setForeground(Color.BLACK);
+				super.getAgregarUsuario().getLblError().setVisible(false);
+				super.getAgregarUsuario().getLblError2().setVisible(false);
+				this.getBandera()[3] = true;
+			}
 			break;
 		case "cbxLocalidad":
-			if (this.getAgregarUsuario().getCbxLocalidad().getSelectedIndex() == 0) {
-				this.getAgregarUsuario().getLblLocalidad().setForeground(Color.RED);
-				this.getAgregarUsuario().getLblError().setVisible(true);
-				this.getAgregarUsuario().getLblError2().setText("Eliga una localidad");
-				this.getAgregarUsuario().getLblError2().setVisible(true);
+			if (super.getAgregarUsuario().getCbxLocalidad().getSelectedIndex() == 0) {
+				super.getAgregarUsuario().getLblLocalidad().setForeground(Color.RED);
+				super.getAgregarUsuario().getLblError().setVisible(true);
+				super.getAgregarUsuario().getLblError2().setText("Eliga una localidad");
+				super.getAgregarUsuario().getLblError2().setVisible(true);
+				this.getBandera()[6] = false;
+			} else {
+				super.getAgregarUsuario().getLblLocalidad().setForeground(Color.BLACK);
+				super.getAgregarUsuario().getLblError().setVisible(false);
+				super.getAgregarUsuario().getLblError2().setVisible(false);
+				this.getBandera()[6] = true;
 			}
 			break;
 		case "cbxGenero":
-			if (this.getAgregarUsuario().getCbxGenero().getSelectedIndex() == 0) {
-				this.getAgregarUsuario().getLblGenero().setForeground(Color.RED);
-				this.getAgregarUsuario().getLblError().setVisible(true);
-				this.getAgregarUsuario().getLblError2().setText("Eliga un genero");
-				this.getAgregarUsuario().getLblError2().setVisible(true);
-			}
-			break;
-		case "cbxPregunta":
-			if (this.getAgregarUsuario().getCbxPregunta().getSelectedIndex() == 0) {
-				this.getAgregarUsuario().getTxtRespuesta().setText("");
-				this.getAgregarUsuario().getTxtRespuesta().setEditable(false);
-				this.getAgregarUsuario().getLblPreguntaSecreta().setForeground(Color.RED);
-				this.getAgregarUsuario().getLblError().setVisible(true);
-				this.getAgregarUsuario().getLblError2().setText("Eliga una pregunta");
-				this.getAgregarUsuario().getLblError2().setVisible(true);
-			}else {
-				if (this.getAgregarUsuario().getCbxPregunta().getSelectedIndex() != 0) {
-					this.getAgregarUsuario().getTxtRespuesta().setEditable(true);
-					this.getAgregarUsuario().getLblPreguntaSecreta().setForeground(Color.BLACK);
-					this.getAgregarUsuario().getLblError().setVisible(false);
-				}
+			if (super.getAgregarUsuario().getCbxGenero().getSelectedIndex() == 0) {
+				super.getAgregarUsuario().getLblGenero().setForeground(Color.RED);
+				super.getAgregarUsuario().getLblError().setVisible(true);
+				super.getAgregarUsuario().getLblError2().setText("Eliga un genero");
+				super.getAgregarUsuario().getLblError2().setVisible(true);
+				this.getBandera()[7] = false;
+			} else {
+				super.getAgregarUsuario().getLblGenero().setForeground(Color.BLACK);
+				super.getAgregarUsuario().getLblError().setVisible(false);
+				super.getAgregarUsuario().getLblError2().setVisible(false);
+				this.getBandera()[7] = true;
 			}
 			break;
 		default:
 			break;
 		}
 	}
+
+	@Override
+	public void itemStateChanged(ItemEvent arg0) {
+
+		if (super.getAgregarUsuario().getCbxProvincia().getSelectedIndex() == 0) {
+			super.getAgregarUsuario().getLblProvincia().setForeground(Color.RED);
+			super.getAgregarUsuario().getLblError().setVisible(true);
+			super.getAgregarUsuario().getLblError2().setText("Eliga una provincia");
+			super.getAgregarUsuario().getLblError2().setVisible(true);
+			super.getAgregarUsuario().getCbxLocalidad().setEnabled(false);
+		} else {
+			if (super.getAgregarUsuario().getCbxLocalidad().getSelectedIndex() == 0) {
+				super.getAgregarUsuario().getCbxLocalidad().setModel(new DefaultComboBoxModel(this.getUser()
+						.consultaLocalidad(super.getAgregarUsuario().getCbxProvincia().getSelectedItem().toString())));
+				super.getAgregarUsuario().getCbxLocalidad().setEnabled(true);
+				super.getAgregarUsuario().getLblProvincia().setForeground(Color.BLACK);
+				super.getAgregarUsuario().getLblError().setVisible(false);
+				this.getBandera()[5] = true;
+			}
+		}
+		if (super.getAgregarUsuario().getCbxPregunta().getSelectedIndex() == 0) {
+			super.getAgregarUsuario().getTxtRespuesta().setText("");
+			super.getAgregarUsuario().getTxtRespuesta().setEditable(false);
+			super.getAgregarUsuario().getLblPreguntaSecreta().setForeground(Color.RED);
+			super.getAgregarUsuario().getLblError().setVisible(true);
+			super.getAgregarUsuario().getLblError2().setText("Eliga una pregunta");
+			super.getAgregarUsuario().getLblError2().setVisible(true);
+			this.getBandera()[10] = false;
+		} else {
+
+			super.getAgregarUsuario().getTxtRespuesta().setEditable(true);
+			super.getAgregarUsuario().getLblPreguntaSecreta().setForeground(Color.BLACK);
+			super.getAgregarUsuario().getLblError().setVisible(false);
+			this.getBandera()[10] = true;
+		}
+	}
+
 	@Override
 	public void keyTyped(KeyEvent e) {
 		switch (e.getComponent().getName()) {
 		case "txtNombre":
-				this.getAgregarUsuario().getLblNombre().setForeground(Color.BLACK);
-				this.getAgregarUsuario().getLblError().setVisible(false);
+			super.getAgregarUsuario().getLblNombre().setForeground(Color.BLACK);
+			super.getAgregarUsuario().getLblError().setVisible(false);
+			this.getBandera()[0] = true;
 			break;
 		case "txtApellido":
-			this.getAgregarUsuario().getLblApellido().setForeground(Color.BLACK);
-			this.getAgregarUsuario().getLblError().setVisible(false);
+			super.getAgregarUsuario().getLblApellido().setForeground(Color.BLACK);
+			super.getAgregarUsuario().getLblError().setVisible(false);
+			this.getBandera()[1] = true;
 			break;
 		case "txtDni":
-			if (!Character.isDigit(e.getKeyChar()) || (this.getAgregarUsuario().getTxtDni().getText().length()) >= 8) {
+			if (!Character.isDigit(e.getKeyChar()) || (super.getAgregarUsuario().getTxtDni().getText().length()) >= 8) {
 				e.consume();
 				Toolkit.getDefaultToolkit().beep();
 			}
-			this.getAgregarUsuario().getLblDni().setForeground(Color.BLACK);
-			this.getAgregarUsuario().getLblError().setVisible(false);
+			if (super.getAgregarUsuario().getTxtDni().getText().length() < 8) {
+				Boolean marca = true;
+				String[] dni = user.consulColumna("dni", "usuario");
+				for (int i = 1; i < dni.length; i++) {
+					//System.out.println(dni[i]);
+					if (dni[i].equals(super.getAgregarUsuario().getTxtDni().getText() + e.getKeyChar())) {
+						marca = false;
+						break;
+					}
+				}
+				if (marca) {
+					super.getAgregarUsuario().getLblDni().setForeground(Color.BLACK);
+					super.getAgregarUsuario().getLblError().setVisible(false);
+					this.getBandera()[2] = true;
+				}else {
+					super.getAgregarUsuario().getLblDni().setForeground(Color.RED);
+					super.getAgregarUsuario().getLblError().setVisible(true);
+					super.getAgregarUsuario().getLblError2().setText("El DNI ya existe");
+					super.getAgregarUsuario().getLblError2().setVisible(true);
+					this.getBandera()[2] = false;
+				}
+			}
 			break;
 		case "txtTelefono":
-			if (!Character.isDigit(e.getKeyChar()) || (this.getAgregarUsuario().getTxtTelefono().getText().length()) >= 7) {
+			if (!Character.isDigit(e.getKeyChar())
+					|| (super.getAgregarUsuario().getTxtTelefono().getText().length()) >= 7) {
 				e.consume();
 				Toolkit.getDefaultToolkit().beep();
 			}
-			this.getAgregarUsuario().getLblTelefono().setForeground(Color.BLACK);
-			this.getAgregarUsuario().getLblError().setVisible(false);
+			super.getAgregarUsuario().getLblTelefono().setForeground(Color.BLACK);
+			super.getAgregarUsuario().getLblError().setVisible(false);
+			this.getBandera()[4] = true;
 			break;
 		case "txtRespuesta":
-			this.getAgregarUsuario().getLblPreguntaSecreta().setForeground(Color.BLACK);
-			this.getAgregarUsuario().getLblError().setVisible(false);
+			super.getAgregarUsuario().getLblPreguntaSecreta().setForeground(Color.BLACK);
+			super.getAgregarUsuario().getLblError().setVisible(false);
+			this.getBandera()[11] = true;
 			break;
 		case "txtContrasenia":
-			this.getAgregarUsuario().getLblContrasenia().setForeground(Color.BLACK);
-			this.getAgregarUsuario().getLblError().setVisible(false);
-			break;
-		case "txtConfirmarContrasenia":
-			this.getAgregarUsuario().getLblConfirmarContrasenia().setForeground(Color.BLACK);
-			this.getAgregarUsuario().getLblError().setVisible(true);
+			super.getAgregarUsuario().getLblContrasenia().setForeground(Color.BLACK);
+			super.getAgregarUsuario().getLblError().setVisible(false);
+			this.getBandera()[8] = true;
 			break;
 		default:
 			break;
 		}
 	}
+
 	@Override
 	public void keyReleased(KeyEvent e) {
 		switch (e.getComponent().getName()) {
-		case "txtDni":
-			
-			break;
-		case "txtTelefono":
-			
-			break;
+		case "txtContrasenia":
+			if (super.getAgregarUsuario().getTxtContrasenia().getText()
+					.equals(super.getAgregarUsuario().getTxtConfirmarContrasenia().getText())) {
+				super.getAgregarUsuario().getLblConfirmarContrasenia().setForeground(Color.BLACK);
+				super.getAgregarUsuario().getLblError().setVisible(false);
+				this.getBandera()[8] = true;
+			}
 		case "txtConfirmarContrasenia":
-			if (this.getAgregarUsuario().getTxtContrasenia().getText().equals(this.getAgregarUsuario().getTxtConfirmarContrasenia().getText())) {
-				this.getAgregarUsuario().getLblConfirmarContrasenia().setForeground(Color.BLACK);
-				this.getAgregarUsuario().getLblError().setVisible(false);
-				this.getAgregarUsuario().getLblError2().setText("Las contraseña deben ser iguales");
-				this.getAgregarUsuario().getLblError2().setVisible(true);
+			if (super.getAgregarUsuario().getTxtContrasenia().getText()
+					.equals(super.getAgregarUsuario().getTxtConfirmarContrasenia().getText())) {
+				super.getAgregarUsuario().getLblConfirmarContrasenia().setForeground(Color.BLACK);
+				super.getAgregarUsuario().getLblError().setVisible(false);
+				this.getBandera()[9] = true;
+
+			} else {
+				super.getAgregarUsuario().getLblConfirmarContrasenia().setForeground(Color.RED);
+				super.getAgregarUsuario().getLblError().setVisible(true);
+				super.getAgregarUsuario().getLblError2().setText("Las contraseña deben ser iguales");
+				super.getAgregarUsuario().getLblError2().setVisible(true);
+				this.getBandera()[9] = false;
 			}
 			break;
 		default:
 			break;
 		}
 	}
-	public AgregarUsuario getAgregarUsuario() {
-		return agregarUsuario;
+
+	private void ponerEnRojo() {
+		if (!this.getBandera()[0]) {
+			super.getAgregarUsuario().getLblNombre().setForeground(Color.RED);
+		}
+		if (!this.getBandera()[1]) {
+			super.getAgregarUsuario().getLblApellido().setForeground(Color.RED);
+		}
+		if (!this.getBandera()[2]) {
+			super.getAgregarUsuario().getLblDni().setForeground(Color.RED);
+		}
+		if (!this.getBandera()[3]) {
+			super.getAgregarUsuario().getLblTipoUsuario().setForeground(Color.RED);
+		}
+		if (!this.getBandera()[4]) {
+			super.getAgregarUsuario().getLblTelefono().setForeground(Color.RED);
+		}
+		if (!this.getBandera()[5]) {
+			super.getAgregarUsuario().getLblProvincia().setForeground(Color.RED);
+		}
+		if (!this.getBandera()[6]) {
+			super.getAgregarUsuario().getLblLocalidad().setForeground(Color.RED);
+		}
+		if (!this.getBandera()[7]) {
+			super.getAgregarUsuario().getLblGenero().setForeground(Color.RED);
+		}
+		if (!this.getBandera()[8]) {
+			super.getAgregarUsuario().getLblContrasenia().setForeground(Color.RED);
+		}
+		if (!this.getBandera()[9]) {
+			super.getAgregarUsuario().getLblConfirmarContrasenia().setForeground(Color.RED);
+		}
+		if (!this.getBandera()[10]) {
+			super.getAgregarUsuario().getLblPreguntaSecreta().setForeground(Color.RED);
+		}
+		if (!this.getBandera()[11]) {
+			super.getAgregarUsuario().getLblPreguntaSecreta().setForeground(Color.RED);
+		}
+		super.getAgregarUsuario().getLblError().setVisible(true);
+		super.getAgregarUsuario().getLblError2().setText("Faltan completar campos");
+		super.getAgregarUsuario().getLblError2().setVisible(true);
 	}
-	public void setAgregarUsuario(AgregarUsuario agregarUsuario) {
-		this.agregarUsuario = agregarUsuario;
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if (e.getSource().equals(getAgregarUsuario().getBtnGuardar())) {
+			Integer i = 0;
+			super.getAgregarUsuario().getLblError().setVisible(false);
+			super.getAgregarUsuario().getLblError2().setVisible(false);
+			
+			
+			for (Boolean boolean1 : bandera) {
+				if (!boolean1) {
+					break;
+				}
+				i++;
+			}
+			if (i == 12) {
+				this.getUser().setNombre(super.getAgregarUsuario().getTxtNombre().getText());
+				
+				this.getUser().setApellido(super.getAgregarUsuario().getTxtApellido().getText());
+				
+				this.getUser().setDNI(Integer.parseInt((super.getAgregarUsuario().getTxtDni().getText())));
+				
+				this.getUser().setTipo(super.getAgregarUsuario().getCbxTipoUsuario().getSelectedItem().toString());
+				
+				this.getUser().setTelefono(Integer.parseInt(super.getAgregarUsuario().getTxtTelefono().getText()));
+				
+				this.getUser().setLocalidad(super.getAgregarUsuario().getCbxLocalidad().getSelectedItem().toString());
+				
+				this.getUser().setGenero(super.getAgregarUsuario().getCbxGenero().getSelectedItem().toString());
+				
+				this.getUser().setContrasenia(Hash.md5(super.getAgregarUsuario().getTxtContrasenia().getText()));
+				
+				this.getUser().setRespuesta(Hash.md5(super.getAgregarUsuario().getTxtRespuesta().getText()));
+				
+				this.getUser().setPregunta(super.getAgregarUsuario().getCbxPregunta().getSelectedItem().toString());
+				user.guardarUsuario(user);
+				JOptionPane.showMessageDialog(getAgregarUsuario(), "Guardado correctamente");
+				super.getAgregarUsuario().setVisible(false);
+			} else {
+				//System.out.println(i);
+				ponerEnRojo();
+			}
+		} else {
+			super.getAgregarUsuario().setVisible(false);
+		}
 	}
+
+	public Usuario getUser() {
+		return user;
+	}
+
+	public void setUser(Usuario user) {
+		this.user = user;
+	}
+
+	public Boolean[] getBandera() {
+		return bandera;
+	}
+
+	public void setBandera(Boolean[] bandera) {
+		this.bandera = bandera;
+	}
+
 }

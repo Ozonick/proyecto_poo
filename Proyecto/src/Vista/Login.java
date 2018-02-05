@@ -74,7 +74,7 @@ public class Login extends JFrame {
 		btnIniciarSesion.setBounds(143, 148, 119, 30);
 		contentPane.add(btnIniciarSesion);
 		
-		JLabel lblContrseaIncorrecta = new JLabel("Contrse\u00F1a o Usuario incorrecta");
+		JLabel lblContrseaIncorrecta = new JLabel("Contrase\u00F1a o Usuario incorrecta");
 		lblContrseaIncorrecta.setHorizontalAlignment(SwingConstants.CENTER);
 		lblContrseaIncorrecta.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		lblContrseaIncorrecta.setForeground(Color.RED);

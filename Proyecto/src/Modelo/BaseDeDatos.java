@@ -50,6 +50,7 @@ public class BaseDeDatos {
 		return this.getConnection().prepareStatement(consulta).executeQuery();
 	}
 
+
 	public int insertar(String consulta) {
 		try {
 			return this.getConnection().createStatement().executeUpdate(consulta);

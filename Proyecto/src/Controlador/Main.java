@@ -14,7 +14,7 @@ Login miLogin;
 			@Override
 			public void run() {
 				try {
-					ControladorAgregarCurso.getInstance();
+					ControladorLogin.getInstance();
 					//controlador.getVista().setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();

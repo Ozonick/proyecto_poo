@@ -5,11 +5,20 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import Controlador.ControladorPadre;
+
 public class Usuario {
+	private static Usuario instance;
 	private String nombre, apellido, tipo, localidad, genero, contrasenia, respuesta, pregunta,provincia;
 	private Integer DNI, telefono;
 	private BaseDeDatos baseDeDatos;
-
+	
+	public static Usuario getInstance() {
+		if (instance == null) {
+			instance = new Usuario();
+		}
+		return instance;
+	}
 	public Usuario() {
 		try {
 			this.setBaseDeDatos(BaseDeDatos.getInstance());
@@ -18,7 +27,12 @@ public class Usuario {
 			e.printStackTrace();
 		}
 	}
-
+	public Boolean iniciarSecion(String usuario, String contrasenia) throws SQLException {
+		if (this.getBaseDeDatos().consultar("select usuario.dni, usuario.contrasenia from usuario where usuario.dni = '" + usuario + "' and usuario.contrasenia = '" + contrasenia + "'").next()) {
+			return true;
+		}
+		throw new SQLException();
+	}
 	public String[] consultaLocalidad(String provincia) {
 		ResultSet rs = this.getBaseDeDatos().buscarEntidad(
 				"select nombre_localidad from localidad where localidad.provincia = (select id_provincia from provincia where nombre_provincia = '"

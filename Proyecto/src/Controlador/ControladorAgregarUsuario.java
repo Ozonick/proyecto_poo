@@ -16,6 +16,7 @@ import Modelo.Usuario;
 import Vista.AgregarUsuario;
 
 public class ControladorAgregarUsuario extends ControladorPadre {
+	private static ControladorAgregarUsuario instance;
 	private Usuario user;
 	private Boolean[] bandera;
 
@@ -24,17 +25,15 @@ public class ControladorAgregarUsuario extends ControladorPadre {
 		super.getAgregarUsuario().setVisible(true);
 		user = new Usuario();
 		creadorModelos();
-		this.setBandera(inicializadorDeBandera());
+		this.setBandera(new Boolean[12]);
+		super.inicializadorDeBandera(this.getBandera());
 	}
-
-	private Boolean[] inicializadorDeBandera() {
-		Boolean[] bandera = new Boolean[12];
-		for (int i = 0; i < bandera.length; i++) {
-			bandera[i] = false;
+	public static ControladorAgregarUsuario getInstance() {
+		if (instance == null) {
+			instance = new ControladorAgregarUsuario();
 		}
-		return bandera;
+		return instance;
 	}
-
 	private void creadorModelos() {
 		String[] str = user.consulColumna("nombre_provincia", "provincia");
 		str[0] = "Selecciona una provincia";
@@ -356,18 +355,11 @@ public class ControladorAgregarUsuario extends ControladorPadre {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource().equals(getAgregarUsuario().getBtnGuardar())) {
-			Integer i = 0;
 			super.getAgregarUsuario().getLblError().setVisible(false);
 			super.getAgregarUsuario().getLblError2().setVisible(false);
 			
 			
-			for (Boolean boolean1 : bandera) {
-				if (!boolean1) {
-					break;
-				}
-				i++;
-			}
-			if (i == 12) {
+			if (super.revisarbanderas(this.getBandera()) == 12) {
 				this.getUser().setNombre(super.getAgregarUsuario().getTxtNombre().getText());
 				
 				this.getUser().setApellido(super.getAgregarUsuario().getTxtApellido().getText());
@@ -395,7 +387,8 @@ public class ControladorAgregarUsuario extends ControladorPadre {
 				ponerEnRojo();
 			}
 		} else {
-			super.getAgregarUsuario().setVisible(false);
+			super.getAgregarUsuario().dispose();
+			ControladorVistaAdmin.getInstance().getVistaAdmin().setVisible(true);
 		}
 	}
 

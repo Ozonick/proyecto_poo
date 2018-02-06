@@ -11,13 +11,17 @@ import java.awt.event.KeyListener;
 
 import Vista.AgregarCurso;
 import Vista.AgregarUsuario;
+import Vista.Login;
+import Vista.VistaAdmin;
 import Vista.VistaHorario;
 
 public class ControladorPadre implements FocusListener, KeyListener, ItemListener, ActionListener{
 	private static ControladorPadre instance;
-	private VistaHorario horario;
+	private VistaHorario vistaHorario;
 	private AgregarCurso agregarCurso;
 	private AgregarUsuario agregarUsuario;
+	private Login login;
+	private VistaAdmin vistaAdmin;
 	
 	public ControladorPadre() {
 		//login
@@ -27,6 +31,21 @@ public class ControladorPadre implements FocusListener, KeyListener, ItemListene
 			instance = new ControladorPadre();
 		}
 		return instance;
+	}
+	public Integer revisarbanderas(Boolean[] bandera) {
+		Integer i = 0;
+		for (Boolean boolean1 : bandera) {
+			if (!boolean1) {
+				break;
+			}
+			i++;
+		}
+		return i;
+	}
+	public void inicializadorDeBandera(Boolean[] bandera) {
+		for (int i = 0; i < bandera.length; i++) {
+			bandera[i] = false;
+		}
 	}
 	@Override
 	public void itemStateChanged(ItemEvent arg0) {
@@ -68,12 +87,6 @@ public class ControladorPadre implements FocusListener, KeyListener, ItemListene
 		// TODO Auto-generated method stub
 		
 	}
-	public VistaHorario getHorario() {
-		return horario;
-	}
-	public void setHorario(VistaHorario horario) {
-		this.horario = horario;
-	}
 	public AgregarCurso getAgregarCurso() {
 		return agregarCurso;
 	}
@@ -85,5 +98,23 @@ public class ControladorPadre implements FocusListener, KeyListener, ItemListene
 	}
 	public void setAgregarUsuario(AgregarUsuario agregarUsuario) {
 		this.agregarUsuario = agregarUsuario;
+	}
+	public VistaHorario getVistaHorario() {
+		return vistaHorario;
+	}
+	public void setVistaHorario(VistaHorario vistaHorario) {
+		this.vistaHorario = vistaHorario;
+	}
+	public Login getLogin() {
+		return login;
+	}
+	public void setLogin(Login login) {
+		this.login = login;
+	}
+	public VistaAdmin getVistaAdmin() {
+		return vistaAdmin;
+	}
+	public void setVistaAdmin(VistaAdmin vistaAdmin) {
+		this.vistaAdmin = vistaAdmin;
 	}
 }

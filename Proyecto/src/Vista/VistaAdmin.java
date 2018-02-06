@@ -17,6 +17,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JScrollPane;
 import javax.swing.table.DefaultTableModel;
+
+import Controlador.ControladorPadre;
+
 import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.JMenuBar;
@@ -27,28 +30,22 @@ public class VistaAdmin extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField txtBuscador;
-	private JTable table;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					VistaAdmin frame = new VistaAdmin();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+	private JTable tableAdmin;
+	private ControladorPadre controladorPadre;
+	private JMenuItem mntmUsuarios;
+	private JMenuItem mntmCursos;
+	private JMenuItem mntmSalir;
+	private JButton btnAgregar;
+	private JButton btnDesactivar;
+	private JButton btnModificar;
+	private JScrollPane scrollPane;
+	private JLabel lblBuscador;
 
 	/**
 	 * Create the frame.
 	 */
-	public VistaAdmin() {
+	public VistaAdmin(ControladorPadre controlador) {
+		this.setControladorPadre(controlador);
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 644, 373);
@@ -59,33 +56,36 @@ public class VistaAdmin extends JFrame {
 		JMenu mnGestion = new JMenu("Gestion");
 		menuBar.add(mnGestion);
 		
-		JMenuItem mntmUsuarios = new JMenuItem("Usuarios");
+		mntmUsuarios = new JMenuItem("Usuarios");
+		mntmUsuarios.setName("mntmUsuarios");
+		mntmUsuarios.addActionListener(getControladorPadre());
 		mnGestion.add(mntmUsuarios);
 		
-		JMenuItem mntmCursos = new JMenuItem("Cursos");
+		mntmCursos = new JMenuItem("Cursos");
+		mntmCursos.addActionListener(getControladorPadre());
 		mnGestion.add(mntmCursos);
 		
-		JMenuItem mntmSalir = new JMenuItem("Salir");
+		mntmSalir = new JMenuItem("Salir");
 		mnGestion.add(mntmSalir);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		
-		JButton btnAgregar = new JButton("Nuevo");
+		btnAgregar = new JButton("Agregar");
 		btnAgregar.setBounds(5, 274, 105, 38);
 		
-		JButton btnDesactivar = new JButton("Desactivar");
+		btnDesactivar = new JButton("Desactivar");
 		btnDesactivar.setToolTipText("");
 		btnDesactivar.setBounds(257, 276, 105, 35);
 		
-		JButton btnModificar = new JButton("Modificar");
+		btnModificar = new JButton("Modificar");
 		btnModificar.setBounds(527, 274, 105, 38);
 		contentPane.setLayout(null);
 		contentPane.add(btnAgregar);
 		contentPane.add(btnDesactivar);
 		contentPane.add(btnModificar);
 		
-		JLabel lblBuscador = new JLabel("Buscar:");
+		lblBuscador = new JLabel("Buscar:");
 		lblBuscador.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		lblBuscador.setBounds(5, 8, 55, 22);
 		contentPane.add(lblBuscador);
@@ -95,11 +95,106 @@ public class VistaAdmin extends JFrame {
 		contentPane.add(txtBuscador);
 		txtBuscador.setColumns(10);
 		
-		JScrollPane scrollPane = new JScrollPane();
+		scrollPane = new JScrollPane();
 		scrollPane.setBounds(5, 44, 627, 219);
 		contentPane.add(scrollPane);
 		
-		table = new JTable();
-		scrollPane.setViewportView(table);
+		tableAdmin = new JTable();
+		scrollPane.setViewportView(tableAdmin);
+	}
+
+	public JTextField getTxtBuscador() {
+		return txtBuscador;
+	}
+
+	public void setTxtBuscador(JTextField txtBuscador) {
+		this.txtBuscador = txtBuscador;
+	}
+
+	public JTable getTable() {
+		return tableAdmin;
+	}
+
+	public void setTable(JTable table) {
+		this.tableAdmin = table;
+	}
+
+	public ControladorPadre getControladorPadre() {
+		return controladorPadre;
+	}
+
+	public void setControladorPadre(ControladorPadre controladorPadre) {
+		this.controladorPadre = controladorPadre;
+	}
+	public JTable getTableAdmin() {
+		return tableAdmin;
+	}
+
+	public void setTableAdmin(JTable tableAdmin) {
+		this.tableAdmin = tableAdmin;
+	}
+
+	public JMenuItem getMntmUsuarios() {
+		return mntmUsuarios;
+	}
+
+	public void setMntmUsuarios(JMenuItem mntmUsuarios) {
+		this.mntmUsuarios = mntmUsuarios;
+	}
+
+	public JMenuItem getMntmCursos() {
+		return mntmCursos;
+	}
+
+	public void setMntmCursos(JMenuItem mntmCursos) {
+		this.mntmCursos = mntmCursos;
+	}
+
+	public JMenuItem getMntmSalir() {
+		return mntmSalir;
+	}
+
+	public void setMntmSalir(JMenuItem mntmSalir) {
+		this.mntmSalir = mntmSalir;
+	}
+
+	public JButton getBtnAgregar() {
+		return btnAgregar;
+	}
+
+	public void setBtnAgregar(JButton btnAgregar) {
+		this.btnAgregar = btnAgregar;
+	}
+
+	public JButton getBtnDesactivar() {
+		return btnDesactivar;
+	}
+
+	public void setBtnDesactivar(JButton btnDesactivar) {
+		this.btnDesactivar = btnDesactivar;
+	}
+
+	public JButton getBtnModificar() {
+		return btnModificar;
+	}
+
+	public void setBtnModificar(JButton btnModificar) {
+		this.btnModificar = btnModificar;
+	}
+
+	public JScrollPane getScrollPane() {
+		return scrollPane;
+	}
+
+	public void setScrollPane(JScrollPane scrollPane) {
+		this.scrollPane = scrollPane;
+	}
+
+	public JLabel getLblBuscador() {
+		return lblBuscador;
+	}
+
+	public void setLblBuscador(JLabel lblBuscador) {
+		this.lblBuscador = lblBuscador;
 	}
 }

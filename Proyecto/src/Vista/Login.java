@@ -26,6 +26,10 @@ import javax.swing.SwingConstants;
 public class Login extends JFrame {
 	private JButton btnIniciarSesion;
 	private ControladorPadre controlador;
+	private JTextField txtUsuario;
+	private JPasswordField txtContrasenia;
+	private JLabel lblUsuario;
+	private JLabel lblContrasenia;
 
 	/**
 	 * Create the frame.
@@ -49,26 +53,29 @@ public class Login extends JFrame {
 		lblIniciarSesion.setBounds(10, 11, 372, 56);
 		contentPane.add(lblIniciarSesion);
 		
-		JLabel lblUsuario = new JLabel("Usuario:");
+		lblUsuario = new JLabel("Usuario:");
 		lblUsuario.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		lblUsuario.setBounds(75, 72, 58, 30);
 		contentPane.add(lblUsuario);
 		
-		JLabel lblContraseña = new JLabel("Contrase\u00F1a:");
-		lblContraseña.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblContraseña.setBounds(57, 113, 80, 27);
-		contentPane.add(lblContraseña);
+		lblContrasenia = new JLabel("Contrase\u00F1a:");
+		lblContrasenia.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lblContrasenia.setBounds(57, 113, 80, 27);
+		contentPane.add(lblContrasenia);
 		
-		JPasswordField passwordField = new JPasswordField();
-		passwordField.setBounds(143, 117, 160, 20);
-		contentPane.add(passwordField);
+		txtContrasenia = new JPasswordField();
+		txtContrasenia.addFocusListener(getControlador());
+		txtContrasenia.setBounds(143, 117, 160, 20);
+		contentPane.add(txtContrasenia);
 		
-		JTextField txtUsuario = new JTextField();
+		txtUsuario = new JTextField();
+		txtUsuario.addFocusListener(this.getControlador());
 		txtUsuario.setBounds(143, 78, 160, 20);
 		contentPane.add(txtUsuario);
 		txtUsuario.setColumns(10);
 		
 		btnIniciarSesion = new JButton("Iniciar Sesion");
+		btnIniciarSesion.addActionListener(getControlador());
 		btnIniciarSesion.setToolTipText("");
 		
 		btnIniciarSesion.setBounds(143, 148, 119, 30);
@@ -103,6 +110,46 @@ public class Login extends JFrame {
 
 	public void setControlador(ControladorPadre controlador) {
 		this.controlador = controlador;
+	}
+
+
+	public JTextField getTxtUsuario() {
+		return txtUsuario;
+	}
+
+
+	public void setTxtUsuario(JTextField txtUsuario) {
+		this.txtUsuario = txtUsuario;
+	}
+
+
+	public JPasswordField getTxtContrasenia() {
+		return txtContrasenia;
+	}
+
+
+	public void setTxtContrasenia(JPasswordField txtContrasenia) {
+		this.txtContrasenia = txtContrasenia;
+	}
+
+
+	public JLabel getLblUsuario() {
+		return lblUsuario;
+	}
+
+
+	public void setLblUsuario(JLabel lblUsuario) {
+		this.lblUsuario = lblUsuario;
+	}
+
+
+	public JLabel getLblContrasenia() {
+		return lblContrasenia;
+	}
+
+
+	public void setLblContrasenia(JLabel lblContrasenia) {
+		this.lblContrasenia = lblContrasenia;
 	}
 }
 

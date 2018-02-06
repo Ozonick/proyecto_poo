@@ -106,6 +106,7 @@ public class AgregarCurso extends JFrame {
 		txtNombre.setName("txtNombre");
 		txtNombre.setColumns(10);
 		txtNombre.addFocusListener(getControlador());
+		txtNombre.addKeyListener(getControlador());
 		txtNombre.setBounds(138, 69, 174, 20);
 		contentPane.add(txtNombre);
 		
@@ -121,6 +122,7 @@ public class AgregarCurso extends JFrame {
 		contentPane.add(btnGuardar);
 		
 		btnCancelar  = new JButton("Cancelar");
+		btnCancelar.addActionListener(getControlador());
 		btnCancelar .setBounds(177, 282, 103, 31);
 		contentPane.add(btnCancelar );
 		

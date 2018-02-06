@@ -39,6 +39,7 @@ public class VistaHorario extends JFrame {
 	private JLabel lblHorarioDeInicio;
 	private JLabel lblHoraDeFinalizacin;
 	private JLabel lblLugarDeLa;
+	private JScrollPane scrollPane;
 
 	/**
 	 * Create the frame.
@@ -52,7 +53,7 @@ public class VistaHorario extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JScrollPane scrollPane = new JScrollPane();
+		scrollPane = new JScrollPane();
 		scrollPane.setBounds(10, 112, 501, 183);
 		contentPane.add(scrollPane);
 		
@@ -84,6 +85,8 @@ public class VistaHorario extends JFrame {
 		contentPane.add(btnQuitar);
 		
 		cbxDiaSemana = new JComboBox();
+		cbxDiaSemana.setName("cbxDiaSemana");
+		cbxDiaSemana.addFocusListener(getControlador());
 		cbxDiaSemana.setModel(new DefaultComboBoxModel(new String[] {"Lunes", "Martes", "M\u00EDercoles", "Jueves", "Viernes", "Sabado", "Domingo"}));
 		cbxDiaSemana.setBounds(150, 11, 138, 20);
 		contentPane.add(cbxDiaSemana);
@@ -105,12 +108,17 @@ public class VistaHorario extends JFrame {
 		contentPane.add(lblLugarDeLa);
 		
 		txtLugar = new JTextField();
+		txtLugar.setName("txtLugar");
 		txtLugar.setBounds(150, 84, 138, 20);
 		contentPane.add(txtLugar);
 		txtLugar.setColumns(10);
+		txtLugar.addFocusListener(getControlador());
 		Date date = new Date();
 		SpinnerDateModel spinnerModelInicio = new SpinnerDateModel(date, null, null, Calendar.HOUR_OF_DAY);
 		spHoraInicio = new JSpinner(spinnerModelInicio);
+		spHoraInicio.setName("spHoraInicio");
+		JSpinner.DateEditor txtHoraInicio = (JSpinner.DateEditor) spHoraInicio.getEditor();
+		txtHoraInicio.getTextField().addFocusListener(getControlador());
 		spHoraInicio.setBounds(150, 36, 138, 20);
 		JSpinner.DateEditor de_spHoraInicio = new JSpinner.DateEditor(spHoraInicio, "HH:mm");
 		spHoraInicio.setEditor(de_spHoraInicio);
@@ -118,6 +126,8 @@ public class VistaHorario extends JFrame {
 		
 		SpinnerDateModel spinnerModelFin = new SpinnerDateModel(date, null, null, Calendar.HOUR_OF_DAY);
 		spHoraFin = new JSpinner(spinnerModelFin);
+		spHoraFin.setName("spHoraFin");
+		spHoraFin.addFocusListener(getControlador());
 		spHoraFin.setBounds(150, 61, 138, 20);
 		JSpinner.DateEditor de_spHoraFin = new JSpinner.DateEditor(spHoraFin, "HH:mm");
 		spHoraFin.setEditor(de_spHoraFin);
@@ -167,5 +177,109 @@ public class VistaHorario extends JFrame {
 
 	public void setBtnNuevo(JButton btnNuevo) {
 		this.btnAgregar = btnNuevo;
+	}
+
+	public JButton getBtnGuardar() {
+		return btnGuardar;
+	}
+
+	public void setBtnGuardar(JButton btnGuardar) {
+		this.btnGuardar = btnGuardar;
+	}
+
+	public JButton getBtnQuitar() {
+		return btnQuitar;
+	}
+
+	public void setBtnQuitar(JButton btnQuitar) {
+		this.btnQuitar = btnQuitar;
+	}
+
+	public JButton getBtnAgregar() {
+		return btnAgregar;
+	}
+
+	public void setBtnAgregar(JButton btnAgregar) {
+		this.btnAgregar = btnAgregar;
+	}
+
+	public JTextField getTxtLugar() {
+		return txtLugar;
+	}
+
+	public void setTxtLugar(JTextField txtLugar) {
+		this.txtLugar = txtLugar;
+	}
+
+	public JButton getBtnCancelar() {
+		return btnCancelar;
+	}
+
+	public void setBtnCancelar(JButton btnCancelar) {
+		this.btnCancelar = btnCancelar;
+	}
+
+	public JComboBox getCbxDiaSemana() {
+		return cbxDiaSemana;
+	}
+
+	public void setCbxDiaSemana(JComboBox cbxDiaSemana) {
+		this.cbxDiaSemana = cbxDiaSemana;
+	}
+
+	public JSpinner getSpHoraInicio() {
+		return spHoraInicio;
+	}
+
+	public void setSpHoraInicio(JSpinner spHoraInicio) {
+		this.spHoraInicio = spHoraInicio;
+	}
+
+	public JSpinner getSpHoraFin() {
+		return spHoraFin;
+	}
+
+	public void setSpHoraFin(JSpinner spHoraFin) {
+		this.spHoraFin = spHoraFin;
+	}
+
+	public JLabel getLblDia() {
+		return lblDia;
+	}
+
+	public void setLblDia(JLabel lblDia) {
+		this.lblDia = lblDia;
+	}
+
+	public JLabel getLblHorarioDeInicio() {
+		return lblHorarioDeInicio;
+	}
+
+	public void setLblHorarioDeInicio(JLabel lblHorarioDeInicio) {
+		this.lblHorarioDeInicio = lblHorarioDeInicio;
+	}
+
+	public JLabel getLblHoraDeFinalizacin() {
+		return lblHoraDeFinalizacin;
+	}
+
+	public void setLblHoraDeFinalizacin(JLabel lblHoraDeFinalizacin) {
+		this.lblHoraDeFinalizacin = lblHoraDeFinalizacin;
+	}
+
+	public JLabel getLblLugarDeLa() {
+		return lblLugarDeLa;
+	}
+
+	public void setLblLugarDeLa(JLabel lblLugarDeLa) {
+		this.lblLugarDeLa = lblLugarDeLa;
+	}
+
+	public JScrollPane getScrollPane() {
+		return scrollPane;
+	}
+
+	public void setScrollPane(JScrollPane scrollPane) {
+		this.scrollPane = scrollPane;
 	}
 }

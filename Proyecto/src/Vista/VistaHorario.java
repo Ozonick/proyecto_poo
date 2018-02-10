@@ -46,7 +46,7 @@ public class VistaHorario extends JFrame {
 	 */
 	public VistaHorario(ControladorPadre controlador) {
 		this.setControlador(controlador);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 541, 345);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));

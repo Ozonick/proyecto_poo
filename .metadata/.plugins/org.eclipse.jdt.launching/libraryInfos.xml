@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<libraryInfos>
+<libraryInfo home="D:\Users\DK_RZ\eclipse\java-oxygen\eclipse\Nueva carpeta" version="1.8.0_144">
+<bootpath>
+<entry path="D:\Users\DK_RZ\eclipse\java-oxygen\eclipse\Nueva carpeta\lib\resources.jar"/>
+<entry path="D:\Users\DK_RZ\eclipse\java-oxygen\eclipse\Nueva carpeta\lib\rt.jar"/>
+<entry path="D:\Users\DK_RZ\eclipse\java-oxygen\eclipse\Nueva carpeta\lib\sunrsasign.jar"/>
+<entry path="D:\Users\DK_RZ\eclipse\java-oxygen\eclipse\Nueva carpeta\lib\jsse.jar"/>
+<entry path="D:\Users\DK_RZ\eclipse\java-oxygen\eclipse\Nueva carpeta\lib\jce.jar"/>
+<entry path="D:\Users\DK_RZ\eclipse\java-oxygen\eclipse\Nueva carpeta\lib\charsets.jar"/>
+<entry path="D:\Users\DK_RZ\eclipse\java-oxygen\eclipse\Nueva carpeta\lib\jfr.jar"/>
+<entry path="D:\Users\DK_RZ\eclipse\java-oxygen\eclipse\Nueva carpeta\classes"/>
+</bootpath>
+<extensionDirs>
+<entry path="D:\Users\DK_RZ\eclipse\java-oxygen\eclipse\Nueva carpeta\lib\ext"/>
+<entry path="C:\WINDOWS\Sun\Java\lib\ext"/>
+</extensionDirs>
+<endorsedDirs>
+<entry path="D:\Users\DK_RZ\eclipse\java-oxygen\eclipse\Nueva carpeta\lib\endorsed"/>
+</endorsedDirs>
+</libraryInfo>
+</libraryInfos>
